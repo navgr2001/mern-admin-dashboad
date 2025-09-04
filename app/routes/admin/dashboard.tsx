@@ -42,9 +42,9 @@ const dashboard = () => {
             .map(({ id, name, imageUrls, itinerary, tags, estimatedPrice }) => (
               <TripCard
                 key={id}
-                id={id.toString}
+                id={id.toString()}
                 name={name}
-                imageUrls={imageUrls[0]}
+                imageUrl={imageUrls[0]}
                 location={itinerary?.[0]?.location ?? ""}
                 tags={tags}
                 price={estimatedPrice}
