@@ -34,8 +34,24 @@ const dashboard = () => {
           />
         </div>
       </section>
-
-      <TripCard />
+      <section className="container">
+        <h1 className="text-xl font-semibold text-dark-100">Created Trips</h1>
+        <div className="trip-grid">
+          {allTrips
+            .slice(0, 4)
+            .map(({ id, name, imageUrls, itinerary, tags, estimatedPrice }) => (
+              <TripCard
+                key={id}
+                id={id.toString}
+                name={name}
+                imageUrls={imageUrls[0]}
+                location={itinerary?.[0]?.location ?? ""}
+                tags={tags}
+                price={estimatedPrice}
+              />
+            ))}
+        </div>
+      </section>
     </main>
   );
 };
