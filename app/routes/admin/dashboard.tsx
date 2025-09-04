@@ -1,16 +1,9 @@
 import { StatsCard, TripCard } from "components";
 import Header from "components/Header";
 import React from "react";
+import { dashboardStats, user, allTrips } from "~/constants";
 
 const dashboard = () => {
-  const user = { name: "Naveen" };
-  const dashboardStats = {
-    totalUsers: 12450,
-    usersJoined: { currentMonth: 218, lastMonth: 176 },
-    totalTrips: 3210,
-    tripsCreated: { currentMonth: 150, lastMonth: 250 },
-    userRole: { total: 62, currentMonth: 25, lastMonth: 15 },
-  };
   const { totalUsers, usersJoined, totalTrips, tripsCreated, userRole } =
     dashboardStats;
   return (

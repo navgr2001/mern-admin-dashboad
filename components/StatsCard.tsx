@@ -1,5 +1,6 @@
 import React from "react";
 import { calculateTrendPercentage } from "~/lib/utils";
+import { cn } from "~/lib/utils";
 
 const StatsCard = ({
   headerTitle,
@@ -25,10 +26,25 @@ const StatsCard = ({
                 className="size-5"
                 alt="arrow"
               />
-              <figcaption>{Math.round(percentage)}%</figcaption>
+              <figcaption
+                className={cn(
+                  "text-sm font-medium",
+                  isDecrement ? "text-red-500" : "text-success-700"
+                )}
+              >
+                {Math.round(percentage)}%
+              </figcaption>
             </figure>
+            <p className="text-sm font-medium text-gray-100 truncate">
+              vs last Month
+            </p>
           </div>
         </div>
+        <img
+          src={`/assets/icons/${isDecrement ? "decrement.svg" : "increment.svg"}`}
+          className="xl:w-32 w-full h-full md:h-32 xl:h-full"
+          alt="trend graph"
+        />
       </div>
     </article>
   );
