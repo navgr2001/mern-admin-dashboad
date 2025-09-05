@@ -1,6 +1,7 @@
 // components/NavItems.tsx
 import React from "react";
-import { Link, NavLink } from "react-router"; // <-- fix
+import { Link, NavLink, useLoaderData, useNavigate } from "react-router"; // <-- fix
+import { logoutUser } from "~/appwrite/auth";
 import { sidebarItems } from "~/constants";
 import { cn } from "~/lib/utils";
 
@@ -9,10 +10,11 @@ type Props = {
 };
 
 const NavItems = ({ handleClick }: Props) => {
-  const user = {
-    name: "Naveen",
-    email: "naveen@gmail.com",
-    imageUrl: "/assets/images/david.webp",
+  const user = useLoaderData();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await logoutUser();
+    navigate("/signin");
   };
 
   const onItemClick = handleClick ?? (() => {}); // safe fallback
@@ -55,6 +57,7 @@ const NavItems = ({ handleClick }: Props) => {
           <img
             src={user?.imageUrl || "/assets/images/david.webp"}
             alt={user?.name || "David"}
+            referrerPolicy="no-referrer"
             className="size-8 rounded-full object-cover"
           />
           <article>
@@ -63,7 +66,7 @@ const NavItems = ({ handleClick }: Props) => {
           </article>
           <button
             type="button"
-            onClick={() => console.log("logout")}
+            onClick={handleLogout}
             className="cursor-pointer"
             aria-label="Logout"
           >

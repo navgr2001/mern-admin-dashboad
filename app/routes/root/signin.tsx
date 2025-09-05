@@ -8,7 +8,7 @@ import { account } from "~/appwrite/client";
 export async function clientLoader() {
   try {
     const user = await account.get();
-    if (!user?.$id) {
+    if (user.$id) {
       return redirect("/"); // ✅ return it
     }
     return null;
