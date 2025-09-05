@@ -1,7 +1,25 @@
 import React from "react";
 import { SidebarComponent } from "@syncfusion/ej2-react-navigations";
 import { MobileSidebar, NavItems } from "../../../components";
-import { Outlet } from "react-router";
+import { Outlet, redirect } from "react-router";
+import { account } from "~/appwrite/client";
+import { getExistingUser, storeUserData } from "~/appwrite/auth";
+
+export async function clientLoader() {
+  try {
+    const user = await account.get();
+    if (!user?.$id) return redirect("/signin");
+    const existingUser = await getExistingUser(user.$id);
+    if (existingUser?.status === "user") {
+      return redirect("/");
+    }
+
+    return existingUser?.$id ? existingUser : await storeUserData();
+  } catch (e) {
+    console.log("Error in client loader", e);
+    return redirect("/signin");
+  }
+}
 
 const AdminLayout = () => {
   return (
