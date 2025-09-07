@@ -7,6 +7,10 @@ import { dashboardStats, user, allTrips } from "~/constants";
 const { totalUsers, usersJoined, totalTrips, tripsCreated, userRole } =
   dashboardStats;
 
+export async function loader() {
+  throw new Error("some error thrown in a loader");
+}
+
 import type { Route } from "./+types/dashboard";
 
 export const clientLoader = async () => await getUser();
