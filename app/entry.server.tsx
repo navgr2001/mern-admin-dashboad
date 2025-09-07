@@ -1,7 +1,11 @@
 import { PassThrough } from "node:stream";
 import * as Sentry from "@sentry/react-router";
 
-import type { AppLoadContext, EntryContext } from "react-router";
+import type {
+  AppLoadContext,
+  EntryContext,
+  HandleErrorFunction,
+} from "react-router";
 import { createReadableStreamFromReadable } from "@react-router/node";
 import { ServerRouter } from "react-router";
 import { isbot } from "isbot";
@@ -62,6 +66,7 @@ function handleRequest(
               status: responseStatusCode,
             })
           );
+          pipe(Sentry.getMetaTagTransformer(body));
         },
         onShellError(error: unknown) {
           reject(error);
@@ -77,6 +82,13 @@ function handleRequest(
         },
       }
     );
+    setTimeout(abort, streamTimeout + 1000);
   });
 }
+export const handleError: HandleErrorFunction = (error, { request }) => {
+  if (!request.signal.aborted) {
+    Sentry.captureException(error);
+    console.error(error);
+  }
+};
 export default Sentry.sentryHandleRequest(handleRequest);
